@@ -1,4 +1,3 @@
-require 'pry-byebug'
 VALID_CHOICES = {
   r: 'rock',
   p: 'paper',
@@ -40,6 +39,11 @@ computer_score = 0
 loop do
   choice = ''
   until player_score == 5 || computer_score == 5 do
+    system('clear')
+    prompt("Welcome to the rock paper scissors lizard spock game! The first one to reach 5 wins will win the game!")
+    prompt("==========================")
+    prompt("Player: #{player_score} -- Computer: #{computer_score}")
+    prompt("==========================")
     which_prompt = <<-MSG
       Choose one:
       r for ROCK
@@ -51,19 +55,6 @@ loop do
 
     prompt(which_prompt)
     choice = Kernel.gets().chomp().to_sym()
-
-    case choice
-    when :r
-      'rock'
-    when :p
-      'paper'
-    when :s
-      'scissors'
-    when :l
-      'lizard'
-    when :sp
-      'spock'
-    end
 
     break if VALID_CHOICES.include?(choice)
 
