@@ -1,12 +1,4 @@
-# VALID_CHOICES = %w(rock paper scissors lizard spock)
-# VALID_CHOICES = {
-#   r: %w(scissors lizard),
-#   p: %w(rock spock),
-#   s: %w(paper lizard),
-#   l: %w(spock paper),
-#   sp: %w(rock scissors)
-# }
-
+require 'pry-byebug'
 VALID_CHOICES = {
   r: 'rock',
   p: 'paper',
@@ -20,25 +12,23 @@ def prompt(msg)
 end
 
 def win?(first, second)
-  (first == 'rock' && second == 'scissors') ||
-    (first == 'rock' && second == 'lizard') ||
-    (first == 'paper' && second == 'rock') ||
-    (first == 'paper' && second == 'spock') ||
-    (first == 'scissors' && second == 'paper') ||
-    (first == 'scissors' && second == 'lizard') ||
-    (first == 'lizard' && second == 'spock') ||
-    (first == 'lizard' && second == 'paper') ||
-    (first == 'spock' && second == 'rock') ||
-    (first == 'spock' && second == 'scissors')
+  (first == :r && second == :s) ||
+    (first == :r && second == :l) ||
+    (first == :p && second == :r) ||
+    (first == :p && second == :sp) ||
+    (first == :s && second == :p) ||
+    (first == :s && second == :l) ||
+    (first == :l && second == :sp) ||
+    (first == :l && second == :p) ||
+    (first == :sp && second == :r) ||
+    (first == :sp && second == :s)
 end
 
 def display_results(player, computer)
   if win?(player, computer)
     prompt("You won!")
-    player_score += 1
   elsif win?(computer, player)
     prompt("Computer won!")
-    computer_score += 1
   else
     prompt("Draw!")
   end
@@ -63,15 +53,15 @@ loop do
     choice = Kernel.gets().chomp().to_sym
 
     case choice
-    when 'r'
+    when :r
       'rock'
-    when 'p'
+    when :p
       'paper'
-    when 's'
+    when :s
       'scissors'
-    when 'l'
+    when :l
       'lizard'
-    when 'sp'
+    when :sp
       'spock'
     end
 
@@ -86,7 +76,16 @@ loop do
 
   display_results(choice, computer_choice)
 
+  player_score += 1 if win?(choice, computer_choice)
+  computer_score += 1 if win?(computer_choice, choice)
+
+  prompt("Player score is #{player_score} and Computer score is #{computer_score}")
+  break if player_score == 5 || computer_score == 5
+
   prompt("Play again? press 'y' to play again")
   answer = Kernel.gets().chomp()
   break unless answer.downcase() == 'y'
 end
+
+prompt("Player reached 5 wins!") if player_score == 5
+prompt("Computer reached 5 wins!") if computer_score == 5
