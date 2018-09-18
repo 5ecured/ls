@@ -50,7 +50,7 @@ loop do
     MSG
 
     prompt(which_prompt)
-    choice = Kernel.gets().chomp().to_sym
+    choice = Kernel.gets().chomp().to_sym()
 
     case choice
     when :r
